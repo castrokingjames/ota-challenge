@@ -1,0 +1,45 @@
+--
+-- Activities
+--
+-- Usable by: Activities
+-- Object Key: Surrogate (id)
+-- Member Type: Table
+-- Usage: Look-up/Reference
+--
+CREATE TABLE Activities (
+  id TEXT NOT NULL,
+  type TEXT NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  state TEXT NOT NULL,
+  activeIcon TEXT NOT NULL,
+  inactiveIcon TEXT NOT NULL,
+  ordinal INTEGER NOT NULL,
+  PRIMARY KEY (id)
+);
+
+--
+-- ActivityIndices
+--
+-- Usable by: Activities
+-- Member Type: Index
+-- Usage: Optimization
+--
+CREATE INDEX ActivityIndices ON Activities(id);
+
+upsert:
+INSERT INTO Activities
+VALUES ?
+ON CONFLICT(id) DO
+UPDATE SET type=excluded.type, title=excluded.title, description=excluded.description, state=excluded.state, activeIcon=excluded.activeIcon, inactiveIcon=excluded.inactiveIcon;
+
+selectAllByLevelId:
+SELECT Activities.* FROM Activities
+  JOIN LevelActivities ON Activities.id = LevelActivities.activityId
+  JOIN Levels ON Levels.id = LevelActivities.levelId
+WHERE Levels.id = :levelId
+ORDER BY Activities.ordinal ASC;
+
+selectByActivityId:
+SELECT * FROM Activities
+WHERE id = :activityId;

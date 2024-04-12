@@ -1,0 +1,27 @@
+--
+-- LevelSchedule
+--
+-- Usable by: Levels
+-- Object Key(s): id
+-- Member Type: Table
+-- Usage: Pivot/Association/Match
+--
+CREATE TABLE LevelSchedule (
+  id TEXT NOT NULL,
+  schedule TEXT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id) REFERENCES Levels(id) ON DELETE CASCADE
+);
+
+--
+-- LevelScheduleIndices
+--
+-- Usable by: LevelActivities
+-- Member Type: Index
+-- Usage: Optimization
+--
+CREATE INDEX LevelScheduleIndices ON LevelSchedule(id);
+
+upsert:
+INSERT OR REPLACE INTO LevelSchedule VALUES ?;
+

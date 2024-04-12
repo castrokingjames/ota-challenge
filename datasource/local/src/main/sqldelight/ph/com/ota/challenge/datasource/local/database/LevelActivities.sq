@@ -1,0 +1,28 @@
+--
+-- LevelActivities
+--
+-- Usable by: Levels, Activityies
+-- Object Key(s): levelId, activityId
+-- Member Type: Table
+-- Usage: Matching (one-to-many)
+--
+CREATE TABLE LevelActivities (
+  levelId TEXT NOT NULL,
+  activityId TEXT NOT NULL,
+  PRIMARY KEY (levelId, activityId),
+  FOREIGN KEY (levelId) REFERENCES Levels(id) ON DELETE CASCADE,
+  FOREIGN KEY (activityId) REFERENCES Activities(id) ON DELETE CASCADE
+);
+
+--
+-- LevelActivitiesIndices
+--
+-- Usable by: LevelActivities
+-- Member Type: Index
+-- Usage: Optimization
+--
+CREATE INDEX LevelActivitiesIndices ON LevelActivities(levelId, activityId);
+
+upsert:
+INSERT OR REPLACE INTO LevelActivities VALUES ?;
+

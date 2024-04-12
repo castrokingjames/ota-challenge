@@ -50,6 +50,7 @@ fun MilestoneView(
   val state = viewModel
     .collectAsState()
     .value
+  val milestone = state.milestone
   val loading = state.loading
   Box(
     modifier = Modifier.fillMaxSize(),
@@ -58,9 +59,8 @@ fun MilestoneView(
       LoadingView(
         modifier = Modifier.align(Alignment.Center),
       )
-    } else if (loading is Success) {
+    } else if (loading is Success || milestone != null) {
       LazyColumn {
-        val milestone = state.milestone
         milestone
           ?.forEach { entry ->
             val level = entry.key

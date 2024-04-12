@@ -25,7 +25,7 @@ class DatabaseModule {
     return AndroidSqliteDriver(
       Database.Schema,
       context,
-      null,
+      context.packageName,
       callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
         override fun onConfigure(db: SupportSQLiteDatabase) {
           db.setForeignKeyConstraintsEnabled(true)
